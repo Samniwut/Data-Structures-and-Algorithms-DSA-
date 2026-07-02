@@ -6,5 +6,5 @@ git add .
 
 git commit -m "$commit"
 
-echo "********** Commit complete !!!!" 
+echo " Commit complete !!!! " 
 
