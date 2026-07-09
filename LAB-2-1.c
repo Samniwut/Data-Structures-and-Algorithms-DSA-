@@ -1,0 +1,142 @@
+/* 
+Program create array 1-3 dimension in function by..
+1. Calculate and Allocate memory
+2. Calculate the memoryaddress of array 
+3. Use point directed in to memory and read/write its
+4. Formular useing
+Element = (u-l+1)
+Element = (u1-l1+1)*(u2-l2+1)
+Element = (u1-l1+1)*(u2-l2+1)*(u3-l3+1)
+Total_mem = Element*C
+Address of Array
+A(i) =BA+(i-l)C
+A(i,j) =BA+(i-l1)*(u2-l2+1)C+(j-l2)C
+A(i,j,k)=BA+(i-l1)*(u2-l2+1)(u3-l3+1)C+(j-l2)(u3-l3+1)C+(k-l3)C
+===================================================================*/
+#include <stdio.h> //use printf()
+#include <stdlib.h>//use malloc()
+#define l 1 //lower Bound 
+#define u 5 //Upper Bound 
+#define l1 1 //lower Bound 1
+#define u1 3 //Upper Bound 1
+#define l2 1 //Lower Bound 2
+#define u2 4 //Upper Bound 2
+#define l3 1 //Lower Bound 3
+#define u3 5 //Upper Bound 3
+int *BA1, *BA2, *BA3, *p , *BA4; //Base address of each dimension and moving pointer
+int i,j,k,number; //subscript of Array 
+void Create1DArray(){ //Create Array 1 dimension
+ int element,c,total_mem; //Variable uses 
+ element=(u-l+1); //Calculate element
+ c=sizeof(*BA1); //Calculate Size each block of Array
+ total_mem=element*c; //Calculate Total Size
+ BA1=(int*)malloc(total_mem); //Memory allocate and use BA1 to point to its
+} 
+void A1(int i,int x){ //Put data into Array 1 Dimension
+ p=BA1+(i-l); //Calculate pointer 
+ *p=x; //Put data 
+} 
+int ReadA1(int i) { //Read data from Array 1 Dimension
+ p=BA1+(i-l); //Calculate pointer
+ return(*p); //Return value in Array
+} 
+//---------------------------------------------------------------------
+void Create2DArray() { 
+ int element,c,total_mem; 
+ element=(u1-l1+1)*(u2-l2+1); 
+ c=sizeof(*BA2); 
+ total_mem=element*c; 
+ BA2=(int*)malloc(total_mem); 
+} 
+void A2(int i,int j,int x) { 
+ p=BA2+((i-l1)*(u2-l2+1)+(j-l2)); 
+ *p=x; 
+} 
+int ReadA2(int i,int j) { 
+ p=BA2+(i-l1)*(u2-l2+1)+(j-l2); 
+ return(*p); 
+} 
+//---------------------------------------------------------------------
+void Create3DArray() { 
+ int element,c,total_mem; 
+ element=(u1-l1+1)*(u2-l2+1)*(u3-l3+1); 
+ c=sizeof(*BA3); 
+ total_mem=element*c; 
+ BA3=(int*)malloc(total_mem); 
+} 
+void A3(int i,int j,int k,int x) { 
+ p=BA3+((i-l1)*(u2-l2+1)*(u3-l3+1)+(j-l2)*(u3-l3+1)+(k-l3)); 
+ *p=x; 
+} 
+int ReadA3(int i,int j,int k){
+ p=BA3+(i-l1)*(u2-l2+1)*(u3-l3+1)+(j-l2)*(u3-l3+1)+(k-l3);
+ return(*p);
+} 
+//---------------------------------------------------------------------
+void Create3DArray_V4(){ // Row-Plane-Column
+ int element,c,total_mem; 
+ element=(u1-l1+1)*(u2-l2+1)*(u3-l3+1); 
+ c=sizeof(*BA4); 
+ total_mem=element*c; 
+ BA4=(int*)malloc(total_mem);
+ printf("\nelement %d",element);
+  printf("\n total_mem %d",total_mem);
+}
+void A4(int i,int j,int k,int x) { 
+ p=BA4+((j-l2)*(u1-l1+1)*(u3-l3+1)+(i-l1)*(u3-l3+1)+(k-l3)); 
+ *p=x; 
+} 
+int ReadA4(int i,int j,int k){
+ p=BA4+(j-l2)*(u1-l1+1)*(u3-l3+1)+(i-l1)*(u3-l3+1)+(k-l3);
+ return(*p);
+}
+void print_br(){
+    printf("\n============================\n");
+}
+//---------------------------------------------------------------------
+int main() { 
+ printf("1-3 DIMENSION ARRAY FUNCTION...\n"); 
+ printf("=================================\n"); 
+// Create Array.........
+ Create1DArray(); 
+ Create2DArray(); 
+ Create3DArray(); 
+ Create3DArray_V4();
+//Using 1 Dimention Array...
+ i=2;
+ number = 9;
+ A1(i,number);
+ printf("\nA1(%d) = %d ",i,ReadA1(i)); 
+ printf("\nBA1 = %p",&BA1);
+ printf("\nAddress for --> %d <-- = %p",number,p);
+ print_br();
+//Using 2 Dimension Array ...
+ i=2; j=3; number = 99;
+ A2(i,j,number); 
+ printf("\nA2(%d,%d) = %d ",i,j,ReadA2(i,j)); 
+ printf("\nBA2 = %p",&BA2);
+ printf("\nAddress for --> %d <-- = %p",number,p);
+ print_br();
+//Using 3 Dimension Array...
+ i=3; j=4;k=5; number = 999;
+ A3(i,j,k,number); 
+ printf("\nA3(%d,%d,%d) = %d ",i,j,k,ReadA3(i,j,k)); 
+ printf("\nBA3 = %p ",&BA3);
+  printf("\nAddress for --> %d <-- = %p",number,p);
+ print_br();
+ //Using 3 Dimension Array... v4
+ printf("\n(Row-Plane-Column)"); // แสดงข้อความว่าฟั่งชั่นทำงานแบบไหน
+ i=5;j=2;k=1; number = 123;  // set value เข้าฟั่งชั่น
+ A4(i,j,k,number);   // ส่งค่าเข้าฟั่งชั่น A4
+ printf("\nA4(%d,%d,%d) = %d ",i,j,k,ReadA4(i,j,k));  //แสดงผลลัพที่ส่งเข้าไปใน ฟั่งชั่น ReadA4
+ printf("\nBA4 = %p",&BA4); // แสดงที่อยู่เริ่มต้นของ BA4
+ printf("\nAddress for --> %d <-- = %p",number,p); // แสดงที่อยู่สุดท้ายของ Array ที่สร้างไว้
+ printf("\nBA -  P = %ld", (long)(p - BA4)); // แสดงจำนวนช่องของ Array ที่สร้างไว้
+ print_br();//เว้นบรรทัด
+ getchar(); //Wait for KBD hit
+ free(BA1); //Free memory of each array
+ free(BA2); //Free memory of each array
+ free(BA3); //Free memory of each array
+ free(BA4); //Free memory of each array
+ return(0); 
+} //End MAIN Fn.
