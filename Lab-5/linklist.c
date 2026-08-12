@@ -54,7 +54,8 @@ void ShowAllNode()
     int i = 1;
     printf("H = %p\n", (void*)H);
     while (p != NULL) {
-        printf("%d) %p\tINFO : %d\tLINK : %p\n", i, (void*)p, p->info, (void*)p->link);
+        printf("%d) %p\tINFO : %d\tLINK : %p\n", i,
+             (void*)p, p->info, (void*)p->link);
         p = p->link;
         i++;
     }
@@ -66,12 +67,10 @@ void InsertAfter(int data1)
     Node *p;
     Node *cur;
     int found = 0;
-
     if (H == NULL) {
         printf("Linked List have no node!!..\n");
         return;
     }
-
     cur = H;
     while (cur != NULL) {
         if (cur->info == data1) {
@@ -80,13 +79,12 @@ void InsertAfter(int data1)
             printf("\nInsert data : ");
             scanf("%d", &tempData);
             p->info = tempData;
-            p->link = cur->link;
-            cur->link = p;
-            break;   /* stop after inserting once (avoid multiple inserts on duplicate data) */
+            p->link = cur->link;  
+            cur->link = p;        
+            break;
         }
         cur = cur->link;
     }
-
     if (!found)
         printf("Not found data %d in the list! Insert failed.\n", data1);
 }
@@ -96,12 +94,10 @@ void DeleteAfter(int data1)
     Node *cur;
     Node *prev;
     int found = 0;
-
     if (H == NULL) {
         printf("Linked List have no node!!..\n");
         return;
     }
-
     prev = NULL;
     cur = H;
     while (cur != NULL) {
@@ -112,12 +108,12 @@ void DeleteAfter(int data1)
             else
                 prev->link = cur->link;
             free(cur);
-            break;   /* stop after deleting once (avoid multiple deletes on duplicate data) */
+            break;   /* stop after deleting once 
+            (avoid multiple deletes on duplicate data) */
         }
         prev = cur;
         cur = cur->link;
     }
-
     if (!found)
         printf("Not found data %d in the list! Delete failed.\n", data1);
 }
@@ -139,7 +135,6 @@ int main()
 {
     char ch;
     int data;
-
      printf("Enter amount of node (N) : ");
     while (scanf("%d", &n) != 1 || n <= 0)
     {
@@ -147,10 +142,7 @@ int main()
         while (getchar() != '\n');
         printf("Please input Number : ");
     }
-
-    
     CreateNNode(n);
-
     printf("PROGRAM SINGLY LINKED LIST \n");
     printf("================================== \n");
     printf("All Data in Linked List \n");
@@ -162,6 +154,7 @@ int main()
         scanf(" %c", &ch);
 
         switch (ch) {
+            case 'i':
             case 'I':
                 printf("\nInsert After data : ");
                 scanf("%d", &data);
@@ -169,6 +162,7 @@ int main()
                 printf("\nAll Data in Linked List AFTER INSERTED\n");
                 ShowAllNode();
                 break;
+            case 'd':
             case 'D':
                 printf("\nDelete After data : ");
                 scanf("%d", &data);
@@ -176,7 +170,10 @@ int main()
                 printf("\nAll Data in Linked List AFTER DELETED\n");
                 ShowAllNode();
                 break;
+            case 'e':
             case 'E':
+               FreeAllNode();
+               return 0;
                 break;
             default:
                 printf("Invalid choice!\n");
